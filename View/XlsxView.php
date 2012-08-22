@@ -45,7 +45,7 @@ class XlsxView extends View {
 		parent::render($action, $layout, $file);
 
 		if($this->options['graphTemplate'] && $this->options['format'] == 'xlsx') {
-			$this->graphOutput();
+			$response = $this->graphOutput();
 		}
 		else {
 			$response = $this->standardOutput();
@@ -84,9 +84,10 @@ class XlsxView extends View {
 	}
 
 	private function graphOutput() {
+		$filecontents = '';
+		
 		try {
 			$tmpLocation = '/tmp/' . time() . rand(0, time()) . '/';
-
 			$graphFile = APP . $this->options['graphTemplate'];
 
 			if(is_readable($graphFile)) {
@@ -104,15 +105,7 @@ class XlsxView extends View {
 
 			if($this->zip($tmpLocation . 'final.xlsx', $tmpLocation . 'template/')) {
 				$file = $tmpLocation . 'final.xlsx';
-				header('Content-Description: File Transfer');
-				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-				header('Content-Disposition: attachment;filename="'.$this->options['filename'].'.xlsx"');
-				header('Content-Transfer-Encoding: binary');
-				header('Cache-Control: max-age=0');
-				header('Content-Length: ' . filesize($file));
-				ob_clean();
-				flush();
-				readfile($file);
+				$filecontents = file_get_contents($file);
 			}
 		}
 		catch (Exception $e) {
@@ -120,6 +113,7 @@ class XlsxView extends View {
 		}
 
 		$this->cleanUp($tmpLocation);
+		return $filecontents;
 	}
 
 	private function cleanUp($dir) {
@@ -131,7 +125,6 @@ class XlsxView extends View {
 			$file = $dir . '/' . $file;
 			if(is_dir($file)) {
 				$this->cleanUp($file);
-				rmdir($file);
 			}
 			else {
 				unlink($file);

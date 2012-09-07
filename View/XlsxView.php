@@ -2,11 +2,29 @@
 App::uses('View', 'View');
 
 class XlsxView extends View {
-	protected $PhpExcel = null;
-	private $options = array(
-		'graphTemplate' => false,
-		'format' => 'xlsx'
+/**
+ * The subdirectory.  Excel views are always in xlsx.
+ *
+ * @var string
+ */
+	public $subDir = 'xlsx';
+
+/**
+ * List of pdf configs collected from the associated controller.
+ *
+ * @var array
+ */
+	public $excelConfig = array(
+		'format' => 'xlsx',
+		'graphTemplate' => false
 	);
+
+	/**
+	 * The PHPExcel instance
+	 *
+	 * @var PhpExcel
+	 */
+	protected $PhpExcel = null;
 
 /**
  * Constructor
@@ -15,15 +33,23 @@ class XlsxView extends View {
  * @return void
  */
 	public function __construct(Controller $Controller = null) {
+		$this->_passedVars[] = 'excelConfig';
 		parent::__construct($Controller);
+		$excelConfig = Configure::read('CakeExcel');
+		if ($excelConfig) {
+			$this->excelConfig = array_merge((array)$excelConfig, (array)$this->excelConfig);
+		}
 
 		$this->response->type($this->request->params['ext']);
 		if ($Controller instanceof CakeErrorController) {
 			$this->response->type('html');
 		}
+		elseif (!$this->excelConfig) {
+			throw new CakeException(__d('cakeexcel', 'Controller attribute $excelConfig is not correct or missing'));
+		}
 
 		if($this->request->params['ext'] == 'xls') {
-			$this->options['format'] = 'xls';
+			$this->excelConfig['format'] = 'xls';
 		}
 
 		//Excel files can get big!
@@ -36,7 +62,7 @@ class XlsxView extends View {
 	}
 
 	public function setOption($key, $value) {
-		$this->options[$key] = $value;
+		$this->excelConfig[$key] = $value;
 	}
 
 	public function render($action = null, $layout = null, $file = null) {
@@ -44,7 +70,7 @@ class XlsxView extends View {
 
 		parent::render($action, $layout, $file);
 
-		if($this->options['graphTemplate'] && $this->options['format'] == 'xlsx') {
+		if($this->excelConfig['graphTemplate'] && $this->excelConfig['format'] == 'xlsx') {
 			$response = $this->graphOutput();
 		}
 		else {
@@ -53,8 +79,8 @@ class XlsxView extends View {
 
 		$id = current($this->request->params['pass']);
 		$filename = strtolower($this->viewPath) . $id;
-		if (isset($this->options['filename'])) {
-			$filename = $this->options['filename'];
+		if (isset($this->excelConfig['filename'])) {
+			$filename = $this->excelConfig['filename'];
 		}
 
 		$this->response->download($filename . '.' . $this->request->params['ext']);
@@ -66,11 +92,11 @@ class XlsxView extends View {
 	private function standardOutput() {
 		ob_start();
 		
-		if($this->options['format'] == 'xlsx') {
+		if($this->excelConfig['format'] == 'xlsx') {
 			$objWriter = PHPExcel_IOFactory::createWriter($this->PhpExcel, 'Excel2007');
 			$extension = 'xlsx';
 		}
-		elseif($this->options['format'] == 'xls') {
+		elseif($this->excelConfig['format'] == 'xls') {
 			$objWriter = PHPExcel_IOFactory::createWriter($this->PhpExcel, 'Excel5');
 			$extension = 'xls';
 		}
@@ -88,7 +114,7 @@ class XlsxView extends View {
 		
 		try {
 			$tmpLocation = '/tmp/' . time() . rand(0, time()) . '/';
-			$graphFile = APP . $this->options['graphTemplate'];
+			$graphFile = APP . $this->excelConfig['graphTemplate'];
 
 			if(is_readable($graphFile)) {
 				$this->unzip($graphFile, $tmpLocation . 'template/');

@@ -77,6 +77,7 @@ class XlsxView extends View {
 
 		if(isset($objWriter)) {
 			$objWriter->setPreCalculateFormulas(false);
+			$objWriter->setIncludeCharts(TRUE);
 			$objWriter->save('php://output');
 		}
 

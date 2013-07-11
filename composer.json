@@ -22,6 +22,6 @@
     "require": {
         "php": ">=5.2.0",
         "composer/installers": "*",
-        "phpexcel/phpexcel": "v1.7.*"
+        "phpexcel/phpexcel": "1.7.*"
     }
 }

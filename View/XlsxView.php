@@ -30,7 +30,9 @@ class XlsxView extends View {
 		ini_set('memory_limit', '2048M');
 		set_time_limit(0);
 
-		App::import('Vendor', 'CakeExcel.PhpExcel', array('file' => 'PHPExcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
+		if (!App::import('Vendor', 'CakeExcel.PhpExcel', array('file' => 'PHPExcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'))) {
+			App::import('Vendor', 'PhpExcel', array('file' => 'phpexcel' . DS . 'phpexcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
+		}
 
 		$this->PhpExcel = new PHPExcel();
 	}

@@ -30,8 +30,7 @@ class ExcelView extends View {
  * Options for the renderer
  * @var array
  */
-	private $__options = array(
-		'graphTemplate' => false,
+	public $options = array(
 		'format' => 'Excel2007'
 	);
 
@@ -44,13 +43,14 @@ class ExcelView extends View {
 	public function __construct(Controller $Controller = null) {
 		parent::__construct($Controller);
 
-		$this->response->type($this->request->params['ext']);
-		if ($Controller instanceof CakeErrorController) {
-			$this->response->type('html');
+		if (isset($this->request->params['ext']) && $this->request->params['ext'] == 'xls') {
+			$this->options['format'] = 'Excel5';
 		}
 
-		if ($this->request->params['ext'] == 'xls') {
-			$this->options['format'] = 'Excel5';
+		$this->__setResponseType();
+
+		if ($Controller instanceof CakeErrorController) {
+			$this->response->type('html');
 		}
 
 		//PhpExcel instances can get big!
@@ -60,15 +60,6 @@ class ExcelView extends View {
 		App::import('Vendor', 'PhpExcel', array('file' => 'phpexcel' . DS . 'phpexcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
 
 		$this->PhpExcel = new PHPExcel();
-	}
-
-/**
- * 
- * @param [type] $key   [description]
- * @param [type] $value [description]
- */
-	public function option($key, $value) {
-		$this->__options[$key] = $value;
 	}
 
 /**
@@ -101,10 +92,10 @@ class ExcelView extends View {
 	private function __output() {
 		ob_start();
 
-		$writer = PHPExcel_IOFactory::createWriter($this->PhpExcel, $this->__options['format']);
+		$writer = PHPExcel_IOFactory::createWriter($this->PhpExcel, $this->options['format']);
 
 		if (!isset($writer)) {
-			throw new CakeException(__d('cake_excel', 'Excel writer "%s" not found'), $this->__options['format']);
+			throw new CakeException(__d('cake_excel', 'Excel writer "%s" not found'), $this->options['format']);
 		}
 
 		$writer->setPreCalculateFormulas(false);
@@ -117,14 +108,18 @@ class ExcelView extends View {
 	}
 
 	public function getFilename() {
-		if (!empty($this->__options['filename'])) {
-			return $this->__options['filename'] . '.' . $this->getExtension();
+		if (!empty($this->options['filename'])) {
+			return $this->options['filename'] . '.' . $this->getExtension();
 		}
 		$id = current($this->request->params['pass']);
 		return strtolower($this->viewPath) . $id . '.' . $this->getExtension();
 	}
 
 	public function getExtension() {
-		return $this->_extensions[$this->__options['format']];
+		return $this->_extensions[$this->options['format']];
+	}
+
+	private function __setResponseType() {
+		$this->response->type($this->_extensions[$this->options['format']]);
 	}
 }

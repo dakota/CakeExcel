@@ -1,3 +1,0 @@
-[submodule "Vendor/PHPExcel"]
-	path = Vendor/PHPExcel
-	url = git@redmine.octoplus.co.za:php-excel.git 

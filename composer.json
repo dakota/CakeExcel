@@ -1,27 +1,24 @@
 {
-    "name": "octoplus/cake-excel",
+    "name": "dakota/cake-excel",
     "type": "cakephp-plugin",
     "description": "CakePHP excel generator",
     "keywords": [
         "cakephp",
-        "octoplus",
-        "auth"
+        "dakota",
+        "excel",
+        "phpexcel"
     ],
-    "homepage": "http://redmine.octoplus.co.za/projects/cake-excel",
-    "license": "Closed",
+    "homepage": "https://github.com/dakota/CakeExcel",
+    "license": "MIT",
     "authors": [
         {
             "name": "Walther Lalk",
-            "email": "walther@octoplus.co.za"
+            "email": "emailme@waltherlalk.com"
         }
     ],
-    "support": {
-        "issues": "http://redmine.octoplus.co.za/projects/cake-excel/issues",
-        "source": "http://redmine.octoplus.co.za/projects/cake-excel/repository"
-    },
     "require": {
         "php": ">=5.2.0",
         "composer/installers": "*",
-        "phpexcel/phpexcel": "1.7.*"
+        "phpexcel/phpexcel": "~1.7.0"
     }
 }

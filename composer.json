@@ -20,8 +20,5 @@
         "php": ">=5.2.0",
         "composer/installers": "*",
         "phpexcel/phpexcel": "~1.7.0"
-    },
-    "config": {
-        "vendor-dir": "Vendor/"
-    }    
+    }
 }

@@ -19,7 +19,7 @@ class ExcelViewTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$path = CakePlugin::path('CakeExcel') . 'Test' . DS . 'test_app' . DS . 'View' . DS;
-		App::build(array('View' => $path));
+		App::build(array('View' => $path, 'Vendor' => APP . DS . 'vendor' . DS));
 
 		$Controller = new ExcelTestController();
 		$this->View = new ExcelView($Controller);

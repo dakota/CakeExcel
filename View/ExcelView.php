@@ -57,7 +57,9 @@ class ExcelView extends View {
 		ini_set('memory_limit', '2048M');
 		set_time_limit(0);
 
-		App::import('Vendor', 'PhpExcel', array('file' => 'phpexcel' . DS . 'phpexcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
+		if (!class_exists('PHPExcel')) {
+			App::import('Vendor', 'PhpExcel', array('file' => 'phpexcel' . DS . 'phpexcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
+		}
 
 		$this->PhpExcel = new PHPExcel();
 	}

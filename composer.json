@@ -1,5 +1,5 @@
 {
-    "name": "dakota/cake-excel",
+    "name": "dakota/CakeExcel",
     "type": "cakephp-plugin",
     "description": "CakePHP excel generator",
     "keywords": [

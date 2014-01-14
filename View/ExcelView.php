@@ -112,7 +112,7 @@ class ExcelView extends View {
 			return $this->options['filename'] . '.' . $this->getExtension();
 		}
 		$id = current($this->request->params['pass']);
-		return strtolower($this->viewPath) . $id . '.' . $this->getExtension();
+		return strtolower($id) . '.' . $this->getExtension();
 	}
 
 	public function getExtension() {

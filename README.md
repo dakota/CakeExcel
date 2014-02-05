@@ -36,6 +36,16 @@ In app/Config/bootstrap.php add:
 CakePlugin::load('CakeExcel', array('bootstrap' => true, 'routes' => true));
 ```
 
+
+Add the RequestHandler component to AppController, and map xlsx to the CakeExcel plugin
+```
+'RequestHandler' => array(
+	'viewClassMap' => array(
+		'xlsx' => 'CakeExcel.Excel'
+	)
+),
+```
+
 Create a link to the a action with the .xlsx extension
 ```
 $this->Html->link('Excel file', array('ext' => 'xlsx'));

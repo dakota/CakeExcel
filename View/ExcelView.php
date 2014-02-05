@@ -58,7 +58,7 @@ class ExcelView extends View {
 		set_time_limit(0);
 
 		if (!class_exists('PHPExcel')) {
-			App::import('Vendor', 'PhpExcel', array('file' => 'phpexcel' . DS . 'phpexcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
+			App::import('Vendor', 'PhpExcel', array('file' => 'phpoffice' . DS . 'phpexcel' . DS . 'Classes' . DS . 'PHPExcel' . DS . 'IOFactory.php'));
 		}
 
 		$this->PhpExcel = new PHPExcel();

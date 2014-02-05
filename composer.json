@@ -19,6 +19,6 @@
     "require": {
         "php": ">=5.2.0",
         "composer/installers": "*",
-        "phpoffice/phpexcel": "1.7.*"
+        "phpoffice/phpexcel": "~1.7"
     }
 }

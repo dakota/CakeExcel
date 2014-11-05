@@ -1,3 +1,4 @@
 <?php
 use Cake\Routing\Router;
-Router::extensions(['xlsx', 'xls']);
+
+Router::extensions('xlsx');

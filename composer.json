@@ -17,8 +17,13 @@
         }
     ],
     "require": {
-        "php": ">=5.2.0",
-        "composer/installers": "*",
-        "phpoffice/phpexcel": "~1.7.9"
-    }
+        "php": ">=5.4.16",
+        "cakephp/plugin-installer": "*",
+        "phpoffice/phpexcel": "~1.8"
+    },
+	"autoload": {
+		"psr-4": {
+			"Dakota\\CakeExcel\\": "src"
+		}
+	},
 }

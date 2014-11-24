@@ -18,14 +18,9 @@ Requirements
 Installation
 ------------
 
-Add to your composer.json file (dakota/cake-excel)
+Run
 ```
-"dakota/cake-excel": ">=1.0"
-```
-
-Or run
-```
-composer require "dakota/cake-excel >=1.0"
+composer require dakota/cake-excel 3.0.x-dev
 ```
 
 Usage

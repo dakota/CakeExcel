@@ -28,7 +28,7 @@ Usage
 
 In app/Config/bootstrap.php add:
 ```
-CakePlugin::load('CakeExcel', array('bootstrap' => true, 'routes' => true));
+Plugin::load('Dakota\CakeExcel', ['bootstrap' => true, 'routes' => true]);
 ```
 
 

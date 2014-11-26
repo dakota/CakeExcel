@@ -43,7 +43,7 @@ Add the RequestHandler component to AppController, and map xlsx to the CakeExcel
 
 Create a link to the a action with the .xlsx extension
 ```
-$this->Html->link('Excel file', array('ext' => 'xlsx'));
+$this->Html->link('Excel file', array('_ext' => 'xlsx'));
 ```
 
 Place the view templates in a 'xlsx' subdir, for instance `src/Template/Invoices/xlsx/index.ctp`, you also need a layout file, `src/Template/Layout/xlsx/default.ctp`

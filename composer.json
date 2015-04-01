@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.4.16",
-        "cakephp/plugin-installer": "*",
+        "cakephp/cakephp": "~3.0.0",
         "phpoffice/phpexcel": "~1.8"
     },
 	"autoload": {

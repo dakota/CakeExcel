@@ -11,11 +11,11 @@ class ExcelTestController extends Controller {
 
 class ExcelViewTest extends CakeTestCase {
 
-/**
- * setup callback
- *
- * @return void
- */
+	/**
+	 * setup callback
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$path = CakePlugin::path('CakeExcel') . 'Test' . DS . 'test_app' . DS . 'View' . DS;
@@ -30,10 +30,10 @@ class ExcelViewTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
-/**
- * testRender
- *
- */
+	/**
+	 * testRender
+	 *
+	 */
 	public function testConstruct() {
 		$result = $this->View->response->type();
 		$this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $result);

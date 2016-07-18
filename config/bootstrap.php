@@ -1,13 +1,17 @@
 <?php
 use Cake\Event\EventManager;
+use Cake\Event\Event;
+use Cake\Network\Request;
 
-EventManager::instance()
-    ->on(
-        'Controller.initialize',
-        function (Cake\Event\Event $event) {
-            $controller = $event->subject();
-            if ($controller->components()->has('RequestHandler')) {
-                $controller->RequestHandler->config('viewClassMap', ['xlsx' => 'CakeExcel.Excel']);
-            }
-        }
-    );
+EventManager::instance()->on('Controller.initialize', function (Event $event) {
+    $controller = $event->subject();
+    if ($controller->components()->has('RequestHandler')) {
+        $controller->RequestHandler->config('viewClassMap.xlsx', 'CakeExcel.Excel');
+    }
+});
+
+Request::addDetector('csv', [
+		'accept' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+		'param' => '_ext',
+		'value' => 'xlsx'
+]);

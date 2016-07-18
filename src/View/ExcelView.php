@@ -50,7 +50,7 @@ class ExcelView extends View
         EventManager $eventManager = null,
         array $viewOptions = []
     ) {
-        if (!empty($viewOptions['templatePath'])) {
+        if (!empty($viewOptions['templatePath']) && $viewOptions['templatePath'] == '/xlsx') {
             $this->subDir = null;
         }
 

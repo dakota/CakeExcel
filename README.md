@@ -27,13 +27,6 @@ Load the plugin in your app's `config/bootstrap.php` file:
 
     Plugin::load('CakeExcel', ['bootstrap' => true, 'routes' => true]);
 
-## Installation
-
-Run
-```
-composer require dakota/cake-excel 3.1.x-dev
-```
-
 ## Usage
 
 First, you'll want to setup extension parsing for the `xlsx` extension. To do so, you will need to add the following to your `config/routes.php` file:

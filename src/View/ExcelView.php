@@ -50,6 +50,10 @@ class ExcelView extends View
         EventManager $eventManager = null,
         array $viewOptions = []
     ) {
+        if (!empty($viewOptions['templatePath'])) {
+            $this->subDir = null;
+        }
+
         parent::__construct($request, $response, $eventManager, $viewOptions);
 
         if (isset($viewOptions['name']) && $viewOptions['name'] == 'Error') {

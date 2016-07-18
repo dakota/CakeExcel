@@ -1,51 +1,93 @@
-CakeExcel
-=========
+[![Build Status](https://img.shields.io/travis/dakota/CakeExcel/master.svg?style=flat-square)](https://travis-ci.org/dakota/CakeExcel)
+[![Coverage Status](https://img.shields.io/coveralls/dakota/CakeExcel.svg?style=flat-square)](https://coveralls.io/r/dakota/CakeExcel?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/dakota/CakeExcel.svg?style=flat-square)](https://packagist.org/packages/dakota/CakeExcel)
+[![Latest Stable Version](https://img.shields.io/packagist/v/dakota/CakeExcel.svg?style=flat-square)](https://packagist.org/packages/dakota/CakeExcel)
 
-[![Coverage Status](https://coveralls.io/repos/dakota/CakeExcel/badge.png)](https://coveralls.io/r/dakota/CakeExcel)
-[![Build Status](https://travis-ci.org/dakota/CakeExcel.png?branch=3.0)](https://travis-ci.org/dakota/CakeExcel)
+# CakeExcel
 
 A plugin to generate Excel files with CakePHP.
 
-Requirements
-------------
+## Requirements
 
-* PHP 5.4.16
-* CakePHP 3.0+
-* [PHPExcel](https://github.com/PHPOffice/PHPExcel)
-* Composer
+* CakePHP 3.x
+* PHP 5.4.16 or greater
+* Patience
 
+## Installation
 
-Installation
-------------
+_[Using [Composer](http://getcomposer.org/)]_
+
+```
+composer require dakota/cake-excel 3.0.x-dev
+```
+
+### Enable plugin
+
+Load the plugin in your app's `config/bootstrap.php` file:
+
+    Plugin::load('CakeExcel', ['bootstrap' => true, 'routes' => true]);
+
+## Installation
 
 Run
 ```
 composer require dakota/cake-excel 3.1.x-dev
 ```
 
-Usage
------
+## Usage
 
-In app/Config/bootstrap.php add:
-```
-Plugin::load('CakeExcel', ['bootstrap' => true, 'routes' => true]);
-```
+First, you'll want to setup extension parsing for the `xlsx` extension. To do so, you will need to add the following to your `config/routes.php` file:
 
-
-Add the RequestHandler component to AppController if not loading the plugin's bootstrap, and map xlsx to the CakeExcel plugin
-```
-'RequestHandler' => array(
-	'viewClassMap' => array(
-		'xlsx' => 'CakeExcel.Excel'
-	)
-),
+```php
+Router::extensions('xlsx');
 ```
 
-Create a link to the a action with the .xlsx extension
-```
-$this->Html->link('Excel file', array('_ext' => 'xlsx'));
+Next, we'll need to add a viewClassMap entry to your Controller. You can place the following in your AppController:
+
+```php
+public $components = [
+    'RequestHandler' => [
+        'viewClassMap' => [
+            'xlsx' => 'CakeExcel.Excel',
+        ],
+    ]
+];
 ```
 
-Place the view templates in a 'xlsx' subdir, for instance `src/Template/Invoices/xlsx/index.ctp`, you also need a layout file, `src/Template/Layout/xlsx/default.ctp`
+Each application *must* have an xlsx layout. The following is a barebones layout that can be placed in `src/Template/Layout/xlsx/default.ctp`:
+
+```php
+<?= $this->fetch('content') ?>
+```
+
+Finally, you can link to the current page with the .xlsx extension. This assumes you've created an `xlsx/index.ctp` file in your particular controller's template directory:
+
+```php
+$this->Html->link('Excel file', ['_ext' => 'xlsx']);
+```
 
 Inside your view file you will have access to the PHPExcel library with `$this->PhpExcel`. Please see the [PHPExcel](https://github.com/PHPOffice/PHPExcel) documentation for a guide on how to use PHPExcel.
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2013 Walther Lalk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

@@ -10,8 +10,8 @@ EventManager::instance()->on('Controller.initialize', function (Event $event) {
     }
 });
 
-Request::addDetector('csv', [
-		'accept' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-		'param' => '_ext',
-		'value' => 'xlsx'
+Request::addDetector('xlsx', [
+    'accept' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+    'param' => '_ext',
+    'value' => 'xlsx'
 ]);

@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/travis/dakota/CakeExcel/master.svg?style=flat-square)](https://travis-ci.org/dakota/CakeExcel)
 [![Coverage Status](https://img.shields.io/coveralls/dakota/CakeExcel.svg?style=flat-square)](https://coveralls.io/r/dakota/CakeExcel?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/dakota/CakeExcel.svg?style=flat-square)](https://packagist.org/packages/dakota/CakeExcel)
-[![Latest Stable Version](https://img.shields.io/packagist/v/dakota/CakeExcel.svg?style=flat-square)](https://packagist.org/packages/dakota/CakeExcel)
+[![Total Downloads](https://img.shields.io/packagist/dt/dakota/cake-excel.svg?style=flat-square)](https://packagist.org/packages/dakota/cake-excel)
+[![Latest Stable Version](https://img.shields.io/packagist/v/dakota/cake-excel.svg?style=flat-square)](https://packagist.org/packages/dakota/cake-excel)
 
 # CakeExcel
 

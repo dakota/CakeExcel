@@ -16,9 +16,33 @@
             "email": "emailme@waltherlalk.com"
         }
     ],
+    "modifier": [
+        {
+            "name": "Daren Sipes",
+            "email": "daren@sipes.me"
+        }
+    ],
     "require": {
-        "php": ">=5.2.0",
-        "composer/installers": "*",
-        "phpoffice/phpexcel": "~1.7.9"
+        "php": ">=5.4.16",
+        "cakephp/cakephp": "~3.1",
+        "phpoffice/phpexcel": "~1.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "CakeExcel\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CakeExcel\\Test\\": "tests",
+            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/dakota/CakeExcel/issues",
+        "source": "https://github.com/dakota/CakeExcel"
     }
 }

@@ -15,6 +15,20 @@ use PHPExcel_IOFactory;
  */
 class ExcelView extends View
 {
+    /**
+     * Excel layouts are located in the xlsx sub directory of `Layouts/`
+     *
+     * @var string
+     */
+    public $layoutPath = 'xlsx';
+
+    /**
+     * Excel views are always located in the 'xlsx' sub directory for a
+     * controllers views.
+     *
+     * @var string
+     */
+    public $subDir = 'xlsx';
 
     /**
      * PHPExcel instance
@@ -23,37 +37,31 @@ class ExcelView extends View
     public $PhpExcel = null;
 
     /**
-     * Filename String
-     * @var string
-     */
-    protected $filename;
-
-    /**
-     * SubDir Name
-     * @var string
-     */
-    public $subDir = 'xlsx';
-
-    /**
      * Constructor
      *
      * @param \Cake\Network\Request $request Request instance.
      * @param \Cake\Network\Response $response Response instance.
-     * @param \Cake\Event\EventManager $eventManager Event manager instance.
-     * @param array $viewOptions View options. See View::$_passedVars for list of
-     *   options which get set as class properties.
-     *
-     * @throws \Cake\Core\Exception\Exception
+     * @param \Cake\Event\EventManager $eventManager EventManager instance.
+     * @param array $viewOptions An array of view options
      */
-    public function __construct(Request $request = null, Response $response = null, EventManager $eventManager = null, array $viewOptions = [])
-    {
+    public function __construct(
+        Request $request = null,
+        Response $response = null,
+        EventManager $eventManager = null,
+        array $viewOptions = []
+    ) {
         parent::__construct($request, $response, $eventManager, $viewOptions);
 
         if (isset($viewOptions['name']) && $viewOptions['name'] == 'Error') {
             $this->subDir = null;
             $this->layoutPath = null;
             $response->type('html');
+
             return;
+        }
+
+        if ($response && $response instanceof Response) {
+            $response->type('xlsx');
         }
 
         $this->PhpExcel = new PHPExcel();
@@ -61,9 +69,10 @@ class ExcelView extends View
 
     /**
      * Render method
-     * @param  string $action - action to render
-     * @param  string $layout - layout to use
-     * @return string - rendered content
+     *
+     * @param string $view The view being rendered.
+     * @param string $layout The layout being rendered.
+     * @return string The rendered view.
      */
     public function render($view = null, $layout = null)
     {
@@ -72,14 +81,15 @@ class ExcelView extends View
             return $content;
         }
 
-        $content = $this->output();
-        $this->Blocks->set('content', $content);
+        $this->Blocks->set('content', $this->output());
         $this->response->download($this->getFilename());
+
         return $this->Blocks->get('content');
     }
 
     /**
      * Generates the binary excel data
+     *
      * @return string
      * @throws CakeException If the excel writer does not exist
      */
@@ -103,24 +113,16 @@ class ExcelView extends View
     }
 
     /**
-     * Sets the filename
-     * @param string $filename the filename
-     * @return void
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
-    }
-
-    /**
      * Gets the filename
+     *
      * @return string filename
      */
     public function getFilename()
     {
-        if (!empty($this->filename)) {
-            return $this->filename . '.xlsx';
+        if (isset($this->viewVars['_filename'])) {
+            return $this->viewVars['_filename'] . '.xlsx';
         }
+
         return Inflector::slug(str_replace('.xlsx', '', $this->request->url)) . '.xlsx';
     }
 }

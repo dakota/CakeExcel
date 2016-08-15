@@ -32,6 +32,7 @@ Load the plugin in your app's `config/bootstrap.php` file:
 First, you'll want to setup extension parsing for the `xlsx` extension. To do so, you will need to add the following to your `config/routes.php` file:
 
 ```php
+# Set this before you specify any routes
 Router::extensions('xlsx');
 ```
 

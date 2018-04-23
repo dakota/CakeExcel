@@ -1,11 +1,10 @@
 <?php
 namespace CakeExcel\Test\TestCase\View;
 
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use CakeExcel\View\ExcelView;
-use Cake\Network\Request;
-use Cake\Network\Response;
 use Cake\TestSuite\TestCase;
-use PHPExcel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 /**
@@ -17,13 +16,18 @@ class ExcelViewTest extends TestCase
     public $fixtures = ['core.Articles', 'core.Authors'];
 
     /**
+     * @var ExcelView
+     */
+    public $View;
+
+    /**
      * setup callback
      *
      * @return void
      */
     public function setUp()
     {
-        $this->request = new Request([
+        $this->request = new ServerRequest([
             'params' => [
                 'plugin' => null,
                 'controller' => 'posts',
@@ -49,7 +53,7 @@ class ExcelViewTest extends TestCase
      */
     public function testConstruct()
     {
-        $result = $this->View->response->type();
+        $result = $this->View->response->getType();
         $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $result);
         $this->assertTrue($this->View->Spreadsheet instanceof Spreadsheet);
         $this->assertSame($this->View->PhpExcel, $this->View->Spreadsheet);
@@ -57,7 +61,8 @@ class ExcelViewTest extends TestCase
 
     public function testRender()
     {
-        $this->View->name = $this->View->viewPath = 'Posts';
+        $this->View->setTemplatePath('Posts');
+        $this->View->name = 'Posts';
 
         $output = $this->View->render('index');
         $this->assertSame('504b030414', bin2hex(substr($output, 0, 5)));

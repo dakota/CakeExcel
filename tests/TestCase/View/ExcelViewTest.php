@@ -6,6 +6,7 @@ use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\TestSuite\TestCase;
 use PHPExcel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 /**
  * CsvViewTest
@@ -50,7 +51,8 @@ class ExcelViewTest extends TestCase
     {
         $result = $this->View->response->type();
         $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $result);
-        $this->assertTrue($this->View->PhpExcel instanceof PHPExcel);
+        $this->assertTrue($this->View->Spreadsheet instanceof Spreadsheet);
+        $this->assertSame($this->View->PhpExcel, $this->View->Spreadsheet);
     }
 
     public function testRender()

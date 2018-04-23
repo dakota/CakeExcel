@@ -7,8 +7,8 @@ use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Utility\Inflector;
 use Cake\View\View;
-use PHPExcel;
-use PHPExcel_IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * @package  Cake.View
@@ -31,10 +31,11 @@ class ExcelView extends View
     public $subDir = 'xlsx';
 
     /**
-     * PHPExcel instance
-     * @var PhpExcel
+     * Spreadsheet instance
+     *
+     * @var Spreadsheet
      */
-    public $PhpExcel = null;
+    public $Spreadsheet = null;
 
     /**
      * Constructor
@@ -68,7 +69,25 @@ class ExcelView extends View
             $response->type('xlsx');
         }
 
-        $this->PhpExcel = new PHPExcel();
+        $this->Spreadsheet = new Spreadsheet();
+    }
+
+    /**
+     * Magic accessor for helpers. Backward compatibility for PHPExcel property
+     *
+     * @param string $name Name of the attribute to get.
+     *
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if ($name === 'PhpExcel') {
+            deprecationWarning('The `PhpExcel` property is deprecated. Use ExcelView::$Spreadsheet instead.');
+
+            return $this->Spreadsheet;
+        }
+
+        return parent::__get($name);
     }
 
     /**
@@ -95,17 +114,12 @@ class ExcelView extends View
      * Generates the binary excel data
      *
      * @return string
-     * @throws CakeException If the excel writer does not exist
      */
     protected function output()
     {
         ob_start();
 
-        $writer = PHPExcel_IOFactory::createWriter($this->PhpExcel, 'Excel2007');
-
-        if (!isset($writer)) {
-            throw new Exception('Excel writer not found');
-        }
+        $writer = new Xlsx($this->Spreadsheet);
 
         $writer->setPreCalculateFormulas(false);
         $writer->setIncludeCharts(true);
